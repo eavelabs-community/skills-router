@@ -1,0 +1,151 @@
+---
+name: skills-router
+description: "Discover, rank, install, and invoke specialized agent skills. Use when choosing a skill for a user request, searching configured skill catalogs, installing a missing skill, refreshing the local skill registry, or continuing without a specialized skill. Triggers: find skill, search skills, install skill, route request, skill discovery."
+argument-hint: "Describe the task that needs a specialized skill"
+user-invocable: true
+disable-model-invocation: false
+---
+
+# Skills Router
+
+Use this skill as a discovery and routing layer. A selected skill remains the authority for its own workflow.
+
+This entry is a generated thin wrapper. The single source of truth for the router core lives in
+`.skills-router/` at the project root. Regenerate this file by running the init script; do not edit it
+by hand, or your changes will be overwritten on the next regeneration.
+
+## Eligibility Gate
+
+Apply this gate before reading `registry.json` or running any search command.
+
+Enter the routing workflow when at least one condition is true:
+
+- The user explicitly requests Skill discovery, comparison, installation, or use.
+- The request involves a specialized artifact whose file format affects the workflow.
+- It targets a named platform, framework, infrastructure system, or development workflow that may have a dedicated Skill.
+- It is a high-risk or domain-heavy task such as security, deployment, migration, incident response, or performance analysis.
+- A normal workflow is blocked and a specialized Skill could provide the missing procedure or tooling.
+
+Skip routing when any condition applies:
+
+- The request is a simple question, explanation, translation, or routine workspace operation.
+- It is a small code edit with a clear local implementation and validation path.
+- A suitable installed Skill is already known; load it directly instead of searching again.
+- The user explicitly asks not to use Skills.
+
+When uncertain, ask whether a specialized workflow could materially improve correctness, safety, or output quality. If not, skip routing. Do not search merely because a task is long or complex.
+
+## Workflow
+
+1. Confirm that the request passed the Eligibility Gate. Interpret it and extract the goal, input, output, technology, constraints, and whether one or several capabilities are needed.
+2. If `registry.json` is absent or stale, run:
+
+   ```powershell
+   python {{ROUTER_SCRIPT}} refresh
+   ```
+
+3. Generate 2-5 distinct search queries as an array:
+
+   - One concise query in the user's language.
+   - One English task description using likely catalog terminology.
+   - Optional capability queries for separate inputs, outputs, tools, file types, or technologies.
+   - Preserve exact product names, frameworks, commands, and file extensions.
+   - Do not merely translate word-for-word; express the intended operation and deliverable.
+
+   Example for `把考勤 Excel 做成管理层汇报 PPT`:
+
+   ```json
+   [
+     "读取考勤 Excel 并生成管理层汇报 PPT",
+     "analyze Excel attendance data and create executive PowerPoint slides",
+     "xlsx spreadsheet attendance analysis",
+     "pptx executive summary presentation"
+   ]
+   ```
+
+4. Search all queries together:
+
+   ```powershell
+   python {{ROUTER_SCRIPT}} search-many "<query-1>" "<query-2>" "<query-3>" --limit 5
+   ```
+
+5. Verify candidates rather than accepting rank alone:
+
+   - Read each leading candidate's full description, including exclusions.
+   - Compare it with the original request and current workspace, not only the generated queries.
+   - Identify the primary Skill by the requested deliverable or controlling workflow.
+   - Add supporting Skills only when a distinct input or intermediate capability is necessary.
+   - Treat scores and `matched_queries` as evidence, not proof.
+
+6. If one candidate clearly fits, select it. If two candidates imply materially different workflows, ask one discriminating question. Do not ask when a primary plus supporting combination is evident.
+7. Detect the active Agent platform before installation:
+
+   ```powershell
+   python {{ROUTER_SCRIPT}} detect-platform
+   ```
+
+   Detection may return several hosts. Do not choose one implicitly when multiple hosts are present.
+   The Router has no permanent default platform. Active-host resolution uses this order:
+
+   1. An explicit `--platform <name>` argument, or `detect-platform --active-platform <name>`.
+   2. The `SKILLS_ROUTER_PLATFORM` environment variable set by the host or user.
+   3. A single strong workspace marker.
+
+   If several markers exist and no explicit active host is supplied, plan for all hosts or ask which host should receive the Skill. The Router's own location does not by itself make any host the universal default.
+
+8. Create a per-host plan:
+
+   ```powershell
+   python {{ROUTER_SCRIPT}} plan-install <candidate-id> --platform all
+   ```
+
+   Review each host's format, capabilities, destination, and compatibility independently. Platform definitions are configurable; verify version-specific paths and formats for tools marked with notes.
+
+9. Check one host in detail with `status <candidate-id> --platform <platform>`.
+10. For a trusted configured source that is natively compatible, install with `install <candidate-id> --platform <platform>`. The platform selects the proper installation root.
+11. If the Skill does not support a host's format or capabilities, run `prepare-adaptation <candidate-id> --platform <platform>`. The current AI must create a reviewed target-specific artifact; it must not blindly copy source-specific tools, hooks, or scripts.
+12. After installation or adaptation, load the selected Skill for that host. For multiple Skills, apply them in dependency order: input handling first, primary deliverable last.
+13. If no suitable Skill exists, state that briefly and continue with the normal engineering workflow unless the user explicitly requires a Skill.
+
+## Search Fallback
+
+Search in this order:
+
+1. The generated local registry.
+2. Configured trusted sources after `refresh`.
+3. Other known skill catalogs.
+4. General web search for discovery only.
+
+Never install directly from an unreviewed web search result. Add a reviewed source to `sources.json`, refresh, and select the pinned candidate.
+
+## Safety Rules
+
+- Initialization and search only read metadata; they never execute skill-provided scripts.
+- Keep same-name candidates from different sources distinct by candidate ID.
+- Installation copies one skill directory, not an entire catalog.
+- Platform-specific installation is allowed only when the Skill declares that platform in `targets` or has no target restriction.
+- Unsupported Skills are adapted by the current AI from a structured handoff, not mechanically converted or auto-executed.
+- Do not overwrite an existing installation unless the user explicitly requests `--force`.
+- Prefer a pinned `ref` in `sources.json` for reproducible installations.
+
+## Evaluation
+
+Run the fixed 50-scenario bilingual retrieval evaluation after changing query expansion, scoring, or registry parsing:
+
+```powershell
+python {{ROUTER_EVAL}} --registry {{ROUTER_REGISTRY}}
+```
+
+The report separates primary Top-1 ranking, required capability Top-5 coverage, and no-route search rejection. It evaluates deterministic retrieval after queries have been generated; it does not measure the host model's Eligibility Gate or final semantic candidate verification.
+
+## Files
+
+The canonical router core lives in `.skills-router/`:
+
+- Source configuration: `.skills-router/sources.json`
+- Platform configuration: `.skills-router/platforms.json`
+- Router implementation: `.skills-router/scripts/skills_router.py`
+- Offline workflow test: `.skills-router/tests/test_skills_router.py`
+- Evaluation scenarios: `.skills-router/tests/eval_cases.json`
+- Evaluation runner: `.skills-router/tests/evaluate_router.py`
+- Init script (regenerates this wrapper): `.skills-router/init.py`

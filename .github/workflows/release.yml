@@ -1,0 +1,139 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Version tag to release (e.g. v1.0.0). Leave empty to use the latest commit.'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run offline workflow tests
+        run: python .skills-router/tests/test_skills_router.py -v
+
+      - name: Refresh registry from sources (best effort)
+        run: python .skills-router/scripts/skills_router.py refresh || echo "refresh failed; evaluation will fall back to offline fixture registry"
+
+      - name: Run retrieval evaluation
+        run: python .skills-router/tests/evaluate_router.py
+
+  release:
+    name: Release
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.tag }}"
+            if [ -z "$VERSION" ]; then
+              VERSION="v$(date -u +%Y.%m.%d)-manual"
+            fi
+          else
+            VERSION="${GITHUB_REF#refs/tags/}"
+          fi
+          echo "tag=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION#v}" >> "$GITHUB_OUTPUT"
+          echo "title=$(printf '%s' "$VERSION" | sed 's/^v/V/')" >> "$GITHUB_OUTPUT"
+
+      - name: Create release archive
+        run: |
+          mkdir -p dist
+          tar -czf dist/skills-router.tar.gz \
+            --exclude='*/__pycache__' \
+            --exclude='*.pyc' \
+            --exclude='.skills-router/.cache' \
+            --exclude='.skills-router/registry.json' \
+            .skills-router README.md install.sh install.ps1
+          cp "dist/skills-router.tar.gz" "dist/skills-router-${{ steps.version.outputs.version }}.tar.gz"
+
+      - name: Write release notes
+        run: |
+          mkdir -p dist
+          cat > dist/RELEASE_NOTES.md <<'EOF'
+          # skills-router ${{ steps.version.outputs.title }}
+
+          跨平台 AI 技能路由器：让 **Copilot、CodeBuddy、Claude、Codex** 共用一套技能发现 / 搜索 / 安装层。
+
+          ## 功能特性
+
+          - 从 JetBrains / Anthropic 等技能源仓库拉取并建立本地技能索引
+          - 单查询与多查询双语检索（中英文扩展），加权打分排序
+          - 一键安装技能到目标平台目录，不兼容时输出适配流程
+          - `init.py` 自动探测工作区平台并生成薄入口文件
+
+          ## 下载
+
+          | 附件 | 说明 |
+          |------|------|
+          | `skills-router.tar.gz` | 核心发布包（始终指向最新版） |
+          | `skills-router-v${{ steps.version.outputs.version }}.tar.gz` | 本版本发布包 |
+
+          ## 快速安装
+
+          **Linux / macOS / WSL**
+
+          ```bash
+          curl -fsSL -o skills-router.tar.gz https://github.com/eavelabs-community/skills-router/releases/latest/download/skills-router.tar.gz
+          tar -xzf skills-router.tar.gz
+          python .skills-router/init.py          # 自动探测平台并生成入口
+          ```
+
+          **Windows（PowerShell）**
+
+          ```powershell
+          curl.exe -fsSL -o skills-router.tar.gz https://github.com/eavelabs-community/skills-router/releases/latest/download/skills-router.tar.gz
+          tar -xzf skills-router.tar.gz
+          python .skills-router/init.py
+          ```
+
+          ## 使用
+
+          ```bash
+          python .skills-router/scripts/skills_router.py refresh
+          python .skills-router/scripts/skills_router.py search "markdown"
+          python .skills-router/scripts/skills_router.py install <candidate-id> --platform codebuddy
+          ```
+
+          > 安装脚本 `install.sh` / `install.ps1` 随源码库一起管理（`git clone` 后即得），不再单独作为 Release 附件上传。
+          EOF
+
+      - name: Verify archive
+        run: |
+          tar -tzf dist/skills-router.tar.gz | head -20
+          echo "---- dist ----"
+          ls -lh dist/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: ${{ steps.version.outputs.tag }}
+          body_path: dist/RELEASE_NOTES.md
+          generate_release_notes: true
+          files: |
+            dist/skills-router.tar.gz
+            dist/skills-router-${{ steps.version.outputs.version }}.tar.gz

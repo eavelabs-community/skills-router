@@ -1,0 +1,32 @@
+{
+  "platforms": {
+    "copilot": {
+      "markers": [".github/copilot-instructions.md"],
+      "install_root": ".github/skills",
+      "format": "SKILL.md",
+      "capabilities": ["skills", "mcp", "terminal", "browser"],
+      "init_files": {
+        "templates/overrides/copilot/copilot-instructions.md.template": ".github/copilot-instructions.md"
+      }
+    },
+    "claude": {
+      "markers": [".claude"],
+      "install_root": ".claude/skills",
+      "format": "SKILL.md",
+      "capabilities": ["skills", "mcp", "terminal"]
+    },
+    "codex": {
+      "markers": [".agents"],
+      "install_root": ".agents/skills",
+      "format": "SKILL.md",
+      "capabilities": ["skills", "mcp", "terminal"]
+    },
+    "codebuddy": {
+      "markers": [".codebuddy"],
+      "install_root": ".codebuddy/skills",
+      "format": "SKILL.md",
+      "capabilities": ["skills", "mcp", "terminal"],
+      "notes": "Install root and format are configurable defaults; verify against the installed CodeBuddy version."
+    }
+  }
+}

@@ -1,0 +1,434 @@
+{
+  "cases": [
+    {
+      "id": "DOC-01",
+      "category": "documents",
+      "request": "帮我制作一份季度业务汇报PPT",
+      "should_route": true,
+      "queries": ["制作季度业务汇报 PPT", "create quarterly business PowerPoint presentation", "pptx executive slides"],
+      "primary_any": ["anthropic:pptx", "jetbrains:slides"],
+      "expected_groups": [["anthropic:pptx", "jetbrains:slides"]]
+    },
+    {
+      "id": "DOC-02",
+      "category": "documents",
+      "request": "读取现有pptx并提取演讲者备注",
+      "should_route": true,
+      "queries": ["读取 pptx 提取演讲者备注", "read PowerPoint speaker notes", "pptx presentation comments notes"],
+      "primary_any": ["anthropic:pptx"],
+      "expected_groups": [["anthropic:pptx", "jetbrains:slides"]]
+    },
+    {
+      "id": "DOC-03",
+      "category": "documents",
+      "request": "清理这个Excel里的脏数据并补公式",
+      "should_route": true,
+      "queries": ["清理 Excel 脏数据并添加公式", "clean Excel data and add formulas", "xlsx spreadsheet formula formatting"],
+      "primary_any": ["anthropic:xlsx", "jetbrains:spreadsheet"],
+      "expected_groups": [["anthropic:xlsx", "jetbrains:spreadsheet"]]
+    },
+    {
+      "id": "DOC-04",
+      "category": "documents",
+      "request": "生成一封带公司抬头的Word正式信函",
+      "should_route": true,
+      "queries": ["生成带公司抬头的 Word 正式信函", "create professional Word letter with letterhead", "docx document formatting"],
+      "primary_any": ["anthropic:docx", "jetbrains:doc"],
+      "expected_groups": [["anthropic:docx", "jetbrains:doc"]]
+    },
+    {
+      "id": "DOC-05",
+      "category": "documents",
+      "request": "合并三个PDF并检查最终页面",
+      "should_route": true,
+      "queries": ["合并三个 PDF 并检查页面", "merge PDF files and inspect pages", "pdf document processing"],
+      "primary_any": ["anthropic:pdf", "jetbrains:pdf"],
+      "expected_groups": [["anthropic:pdf", "jetbrains:pdf"]]
+    },
+    {
+      "id": "DOC-06",
+      "category": "documents",
+      "request": "分析考勤Excel并生成管理层汇报PPT",
+      "should_route": true,
+      "queries": ["分析考勤 Excel 并生成管理层 PPT", "analyze Excel attendance and create executive PowerPoint", "xlsx spreadsheet analysis", "pptx summary slides"],
+      "primary_any": ["anthropic:pptx", "jetbrains:slides"],
+      "expected_groups": [["anthropic:pptx", "jetbrains:slides"], ["anthropic:xlsx", "jetbrains:spreadsheet"]]
+    },
+    {
+      "id": "DOC-07",
+      "category": "documents",
+      "request": "把PDF合同内容整理成可编辑Word文档",
+      "should_route": true,
+      "queries": ["读取 PDF 合同并生成可编辑 Word", "extract PDF contract into editable Word document", "pdf extraction", "docx document creation"],
+      "primary_any": ["anthropic:docx", "jetbrains:doc"],
+      "expected_groups": [["anthropic:pdf", "jetbrains:pdf"], ["anthropic:docx", "jetbrains:doc"]]
+    },
+    {
+      "id": "DOC-08",
+      "category": "documents",
+      "request": "给销售CSV制作图表和格式化报表",
+      "should_route": true,
+      "queries": ["为销售 CSV 创建图表和格式化报表", "create charts and formatted report from sales CSV", "spreadsheet csv chart formatting"],
+      "primary_any": ["anthropic:xlsx", "jetbrains:spreadsheet"],
+      "expected_groups": [["anthropic:xlsx", "jetbrains:spreadsheet"]]
+    },
+    {
+      "id": "WEB-01",
+      "category": "web",
+      "request": "设计一个有明确视觉风格的SaaS后台页面",
+      "should_route": true,
+      "queries": ["设计 SaaS 后台 UI", "design polished SaaS dashboard frontend", "frontend visual design"],
+      "primary_any": ["anthropic:frontend-design", "jetbrains:frontend-design"],
+      "expected_groups": [["anthropic:frontend-design", "jetbrains:frontend-design"]]
+    },
+    {
+      "id": "WEB-02",
+      "category": "web",
+      "request": "用Playwright验证登录流程并截图",
+      "should_route": true,
+      "queries": ["使用 Playwright 测试登录并截图", "test login flow with Playwright screenshots", "browser end-to-end webapp testing"],
+      "primary_any": ["jetbrains:playwright", "jetbrains:webapp-testing", "anthropic:webapp-testing"],
+      "expected_groups": [["jetbrains:playwright", "jetbrains:webapp-testing", "anthropic:webapp-testing"]]
+    },
+    {
+      "id": "WEB-03",
+      "category": "web",
+      "request": "给Vite项目补Vitest单元测试",
+      "should_route": true,
+      "queries": ["为 Vite 项目添加 Vitest 单元测试", "add Vitest unit tests to Vite project", "vitest testing"],
+      "primary_any": ["jetbrains:vitest"],
+      "expected_groups": [["jetbrains:vitest"]]
+    },
+    {
+      "id": "WEB-04",
+      "category": "web",
+      "request": "测试Vue组件和Pinia状态交互",
+      "should_route": true,
+      "queries": ["测试 Vue 组件和 Pinia 状态", "test Vue components with Pinia store", "vue testing best practices"],
+      "primary_any": ["jetbrains:vue-testing-best-practices"],
+      "expected_groups": [["jetbrains:vue-testing-best-practices"], ["jetbrains:pinia"]]
+    },
+    {
+      "id": "WEB-05",
+      "category": "web",
+      "request": "审查React页面的性能问题",
+      "should_route": true,
+      "queries": ["审查 React 页面性能", "review React application performance", "React performance best practices"],
+      "primary_any": ["jetbrains:vercel-react-best-practices"],
+      "expected_groups": [["jetbrains:vercel-react-best-practices"]]
+    },
+    {
+      "id": "WEB-06",
+      "category": "web",
+      "request": "为Nuxt应用添加服务端数据获取",
+      "should_route": true,
+      "queries": ["Nuxt 服务端数据获取", "add server-side data fetching to Nuxt application", "nuxt development"],
+      "primary_any": ["jetbrains:nuxt"],
+      "expected_groups": [["jetbrains:nuxt"]]
+    },
+    {
+      "id": "WEB-07",
+      "category": "web",
+      "request": "修复Vite构建和插件配置",
+      "should_route": true,
+      "queries": ["修复 Vite 构建插件配置", "fix Vite build and plugin configuration", "vite configuration"],
+      "primary_any": ["jetbrains:vite"],
+      "expected_groups": [["jetbrains:vite"]]
+    },
+    {
+      "id": "WEB-08",
+      "category": "web",
+      "request": "用Three.js和WebGPU实现交互式3D场景",
+      "should_route": true,
+      "queries": ["Three.js WebGPU 交互式 3D 场景", "build interactive Three.js WebGPU scene", "webgpu threejs tsl"],
+      "primary_any": ["jetbrains:webgpu-threejs-tsl"],
+      "expected_groups": [["jetbrains:webgpu-threejs-tsl"]]
+    },
+    {
+      "id": "OPS-01",
+      "category": "devops",
+      "request": "合并PR后GitHub Actions检查失败",
+      "should_route": true,
+      "queries": ["GitHub Actions PR 检查失败", "debug failing GitHub Actions PR checks", "CI failure logs"],
+      "primary_any": ["jetbrains:gh-fix-ci"],
+      "expected_groups": [["jetbrains:gh-fix-ci"]]
+    },
+    {
+      "id": "OPS-02",
+      "category": "devops",
+      "request": "优化Spring Boot服务的Dockerfile和Kubernetes发布",
+      "should_route": true,
+      "queries": ["优化 Spring Boot Dockerfile Kubernetes 发布", "improve Spring Boot container and Kubernetes deployment", "ci cd containerization"],
+      "primary_any": ["jetbrains:ci-cd-containerization-advisor"],
+      "expected_groups": [["jetbrains:ci-cd-containerization-advisor"]]
+    },
+    {
+      "id": "OPS-03",
+      "category": "devops",
+      "request": "把前端部署到Cloudflare",
+      "should_route": true,
+      "queries": ["部署前端到 Cloudflare", "deploy frontend application to Cloudflare", "cloudflare deployment"],
+      "primary_any": ["jetbrains:cloudflare-deploy"],
+      "expected_groups": [["jetbrains:cloudflare-deploy"]]
+    },
+    {
+      "id": "OPS-04",
+      "category": "devops",
+      "request": "将这个网站部署到Vercel",
+      "should_route": true,
+      "queries": ["部署网站到 Vercel", "deploy website to Vercel", "vercel deployment"],
+      "primary_any": ["jetbrains:vercel-deploy", "jetbrains:deploy-to-vercel"],
+      "expected_groups": [["jetbrains:vercel-deploy", "jetbrains:deploy-to-vercel"]]
+    },
+    {
+      "id": "OPS-05",
+      "category": "devops",
+      "request": "在skillshare的devcontainer里运行Go测试",
+      "should_route": true,
+      "queries": ["在 skillshare devcontainer 运行 Go 测试", "run Go tests inside skillshare devcontainer", "skillshare devcontainer"],
+      "primary_any": ["jetbrains:skillshare-devcontainer"],
+      "expected_groups": [["jetbrains:skillshare-devcontainer"]]
+    },
+    {
+      "id": "OPS-06",
+      "category": "devops",
+      "request": "查询TeamCity失败构建和日志",
+      "should_route": true,
+      "queries": ["查询 TeamCity 失败构建日志", "inspect failed TeamCity build logs", "teamcity cli"],
+      "primary_any": ["jetbrains:teamcity-cli"],
+      "expected_groups": [["jetbrains:teamcity-cli"]]
+    },
+    {
+      "id": "OPS-07",
+      "category": "devops",
+      "request": "生产环境延迟突然升高需要处理事故",
+      "should_route": true,
+      "queries": ["处理生产环境高延迟事故", "respond to production latency incident", "production incident response"],
+      "primary_any": ["jetbrains:production-incident-responder"],
+      "expected_groups": [["jetbrains:production-incident-responder"]]
+    },
+    {
+      "id": "OPS-08",
+      "category": "devops",
+      "request": "为Spring服务接入指标日志和链路追踪",
+      "should_route": true,
+      "queries": ["Spring 服务接入指标日志链路追踪", "integrate metrics logs and tracing for Spring service", "observability integration"],
+      "primary_any": ["jetbrains:observability-integrator"],
+      "expected_groups": [["jetbrains:observability-integrator"]]
+    },
+    {
+      "id": "KOT-01",
+      "category": "kotlin-spring",
+      "request": "修复build.gradle.kts里的插件和依赖冲突",
+      "should_route": true,
+      "queries": ["修复 build.gradle.kts 插件依赖冲突", "repair Gradle Kotlin DSL plugin dependency conflict", "gradle kotlin build"],
+      "primary_any": ["jetbrains:gradle-kotlin-dsl-doctor", "jetbrains:dependency-conflict-resolver"],
+      "expected_groups": [["jetbrains:gradle-kotlin-dsl-doctor", "jetbrains:dependency-conflict-resolver"]]
+    },
+    {
+      "id": "KOT-02",
+      "category": "kotlin-spring",
+      "request": "审计Spring Security配置和授权规则",
+      "should_route": true,
+      "queries": ["审计 Spring Security 授权配置", "audit Spring Security configuration and authorization", "spring security review"],
+      "primary_any": ["jetbrains:spring-security-configurator-auditor"],
+      "expected_groups": [["jetbrains:spring-security-configurator-auditor"]]
+    },
+    {
+      "id": "KOT-03",
+      "category": "kotlin-spring",
+      "request": "Kotlin里Transactional注解不生效",
+      "should_route": true,
+      "queries": ["Kotlin Transactional 注解不生效", "diagnose Kotlin Spring transactional proxy failure", "spring proxy self invocation"],
+      "primary_any": ["jetbrains:kotlin-spring-proxy-compatibility"],
+      "expected_groups": [["jetbrains:kotlin-spring-proxy-compatibility"]]
+    },
+    {
+      "id": "KOT-04",
+      "category": "kotlin-spring",
+      "request": "设计JPA实体和API DTO之间的映射",
+      "should_route": true,
+      "queries": ["设计 JPA 实体 DTO 映射", "design mapping between JPA entities and API DTOs", "spring data kotlin mapper"],
+      "primary_any": ["jetbrains:jpa-spring-data-kotlin-mapper", "jetbrains:kotlin-backend-jpa-entity-mapping"],
+      "expected_groups": [["jetbrains:jpa-spring-data-kotlin-mapper", "jetbrains:kotlin-backend-jpa-entity-mapping"]]
+    },
+    {
+      "id": "KOT-05",
+      "category": "kotlin-spring",
+      "request": "排查Jackson序列化Kotlin数据类的问题",
+      "should_route": true,
+      "queries": ["排查 Jackson Kotlin 数据类序列化", "diagnose Jackson Kotlin data class serialization", "jackson kotlin serialization"],
+      "primary_any": ["jetbrains:jackson-kotlin-serialization-specialist"],
+      "expected_groups": [["jetbrains:jackson-kotlin-serialization-specialist"]]
+    },
+    {
+      "id": "KOT-06",
+      "category": "kotlin-spring",
+      "request": "把Java Spring代码迁移成惯用Kotlin",
+      "should_route": true,
+      "queries": ["Java Spring 代码迁移 Kotlin", "migrate Java Spring source files to Kotlin while preserving behavior", "java kotlin migration conversion"],
+      "primary_any": ["jetbrains:java-kotlin-migration-assistant", "jetbrains:kotlin-tooling-java-to-kotlin"],
+      "expected_groups": [["jetbrains:java-kotlin-migration-assistant", "jetbrains:kotlin-tooling-java-to-kotlin"]]
+    },
+    {
+      "id": "KOT-07",
+      "category": "kotlin-spring",
+      "request": "设计跨数据库写入的事务一致性方案",
+      "should_route": true,
+      "queries": ["设计跨数据库事务一致性", "design transaction consistency across database writes", "transaction consistency"],
+      "primary_any": ["jetbrains:transaction-consistency-designer"],
+      "expected_groups": [["jetbrains:transaction-consistency-designer"]]
+    },
+    {
+      "id": "KOT-08",
+      "category": "kotlin-spring",
+      "request": "规划不停机数据库schema迁移",
+      "should_route": true,
+      "queries": ["规划不停机数据库 schema 迁移", "plan zero-downtime database schema migration", "schema migration"],
+      "primary_any": ["jetbrains:schema-migration-planner"],
+      "expected_groups": [["jetbrains:schema-migration-planner"]]
+    },
+    {
+      "id": "KOT-09",
+      "category": "kotlin-spring",
+      "request": "构建Spring MVC或WebFlux API",
+      "should_route": true,
+      "queries": ["构建 Spring MVC WebFlux API", "build Spring MVC or WebFlux API", "spring api builder"],
+      "primary_any": ["jetbrains:spring-mvc-webflux-api-builder"],
+      "expected_groups": [["jetbrains:spring-mvc-webflux-api-builder"]]
+    },
+    {
+      "id": "KOT-10",
+      "category": "kotlin-spring",
+      "request": "审查Kotlin Spring PR里的事务和持久化风险",
+      "should_route": true,
+      "queries": ["审查 Kotlin Spring PR 事务持久化风险", "review Kotlin Spring PR transaction persistence risks", "spring kotlin code review"],
+      "primary_any": ["jetbrains:spring-kotlin-code-review"],
+      "expected_groups": [["jetbrains:spring-kotlin-code-review"]]
+    },
+    {
+      "id": "SEC-01",
+      "category": "security-tools",
+      "request": "为新支付服务建立威胁模型",
+      "should_route": true,
+      "queries": ["为支付服务建立威胁模型", "create threat model for payment service", "security threat modeling"],
+      "primary_any": ["jetbrains:security-threat-model"],
+      "expected_groups": [["jetbrains:security-threat-model"]]
+    },
+    {
+      "id": "SEC-02",
+      "category": "security-tools",
+      "request": "检查代码里的常见安全漏洞和不安全默认值",
+      "should_route": true,
+      "queries": ["检查代码安全漏洞和不安全默认值", "review code for security vulnerabilities and unsafe defaults", "security best practices"],
+      "primary_any": ["jetbrains:security-best-practices"],
+      "expected_groups": [["jetbrains:security-best-practices"]]
+    },
+    {
+      "id": "SEC-03",
+      "category": "security-tools",
+      "request": "优化Postgres表结构、索引和RLS策略",
+      "should_route": true,
+      "queries": ["优化 Postgres 表索引 RLS", "review Postgres schema indexes and RLS policies", "postgres best practices"],
+      "primary_any": ["jetbrains:supabase-postgres-best-practices"],
+      "expected_groups": [["jetbrains:supabase-postgres-best-practices"]]
+    },
+    {
+      "id": "SEC-04",
+      "category": "security-tools",
+      "request": "创建一个连接内部API的MCP服务器",
+      "should_route": true,
+      "queries": ["创建连接内部 API 的 MCP 服务器", "build MCP server for internal API", "mcp builder model context protocol server"],
+      "primary_any": ["anthropic:mcp-builder", "jetbrains:mcp-builder"],
+      "expected_groups": [["anthropic:mcp-builder", "jetbrains:mcp-builder"]]
+    },
+    {
+      "id": "SEC-05",
+      "category": "security-tools",
+      "request": "创建Jupyter notebook分析实验数据",
+      "should_route": true,
+      "queries": ["创建 Jupyter notebook 分析实验数据", "create Jupyter notebook for experiment analysis", "jupyter notebook"],
+      "primary_any": ["jetbrains:jupyter-notebook"],
+      "expected_groups": [["jetbrains:jupyter-notebook"]]
+    },
+    {
+      "id": "SEC-06",
+      "category": "security-tools",
+      "request": "根据最近提交生成CHANGELOG发布说明",
+      "should_route": true,
+      "queries": ["根据最近提交生成 CHANGELOG", "generate changelog release notes from recent commits", "changelog release"],
+      "primary_any": ["jetbrains:skillshare-changelog"],
+      "expected_groups": [["jetbrains:skillshare-changelog"]]
+    },
+    {
+      "id": "SKIP-01",
+      "category": "no-route",
+      "request": "现在几点？",
+      "should_route": false,
+      "queries": ["现在几点", "what time is it"]
+    },
+    {
+      "id": "SKIP-02",
+      "category": "no-route",
+      "request": "把good morning翻译成中文",
+      "should_route": false,
+      "queries": ["翻译 good morning", "translate good morning to Chinese"]
+    },
+    {
+      "id": "SKIP-03",
+      "category": "no-route",
+      "request": "解释一下Python for循环",
+      "should_route": false,
+      "queries": ["解释 Python for 循环", "explain Python for loop"]
+    },
+    {
+      "id": "SKIP-04",
+      "category": "no-route",
+      "request": "把变量userName改成user_name",
+      "should_route": false,
+      "queries": ["重命名局部变量", "rename local variable"]
+    },
+    {
+      "id": "SKIP-05",
+      "category": "no-route",
+      "request": "计算17乘以23",
+      "should_route": false,
+      "queries": ["计算 17 乘 23", "calculate 17 times 23"]
+    },
+    {
+      "id": "SKIP-06",
+      "category": "no-route",
+      "request": "你好",
+      "should_route": false,
+      "queries": ["你好", "hello"]
+    },
+    {
+      "id": "SKIP-07",
+      "category": "no-route",
+      "request": "列出当前目录文件",
+      "should_route": false,
+      "queries": ["列出当前目录文件", "list files in current directory"]
+    },
+    {
+      "id": "SKIP-08",
+      "category": "no-route",
+      "request": "HTTP 404是什么意思？",
+      "should_route": false,
+      "queries": ["解释 HTTP 404", "what does HTTP 404 mean"]
+    },
+    {
+      "id": "SKIP-09",
+      "category": "no-route",
+      "request": "格式化这一小段JSON",
+      "should_route": false,
+      "queries": ["格式化 JSON", "format JSON snippet"]
+    },
+    {
+      "id": "SKIP-10",
+      "category": "no-route",
+      "request": "写一行Python把数字列表求和",
+      "should_route": false,
+      "queries": ["Python 列表求和一行代码", "one line Python sum list"]
+    }
+  ]
+}

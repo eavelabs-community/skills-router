@@ -1,0 +1,3 @@
+.cache/
+registry.json
+__pycache__/

@@ -1,0 +1,17 @@
+# Project Instructions
+
+## Skill Routing Gate
+
+Before using the project skill router, make one silent eligibility decision. Do not read the skill registry or run a skill search unless the request is likely to benefit materially from a specialized workflow.
+
+Load and follow `{{ROUTER_SKILL}}` when at least one condition applies:
+
+- The user explicitly asks to find, install, compare, or use an agent Skill.
+- The task produces or manipulates a specialized artifact such as `.pptx`, `.xlsx`, `.docx`, or `.pdf`, where format-specific procedures matter.
+- The task targets a named platform, framework, infrastructure system, or development workflow that may require specialized commands or constraints.
+- The task involves security, deployment, migration, incident response, performance analysis, or another high-risk domain where a dedicated workflow can materially improve correctness.
+- The normal workflow is blocked and discovering a specialized Skill is a reasonable next step.
+
+Skip skill routing and proceed normally for simple questions, explanations, translations, routine workspace operations, and small code edits with a clear implementation path. Also skip routing when a suitable installed Skill is already known; load that Skill directly. Respect an explicit request not to use Skills.
+
+The eligibility check must not add user-visible ceremony. Only mention routing when a Skill is searched, selected, installed, rejected, or when one short clarification is genuinely required.
