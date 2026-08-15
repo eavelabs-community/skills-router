@@ -6,7 +6,7 @@
 
 [![Release](https://img.shields.io/github/v/release/eavelabs-community/skills-router?style=flat-square&label=Release)](https://github.com/eavelabs-community/skills-router/releases)
 [![CI](https://img.shields.io/github/actions/workflow/status/eavelabs-community/skills-router/release.yml?style=flat-square&label=CI)](https://github.com/eavelabs-community/skills-router/actions)
-[![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.14-blue?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
 [![Copilot](https://img.shields.io/badge/Copilot-supported-brightgreen?style=flat-square)]()
