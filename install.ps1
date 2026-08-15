@@ -13,13 +13,13 @@
   安装目标目录，默认是执行脚本时所在的目录。
 
 .PARAMETER Repo
-  GitHub 仓库 "owner/repo"。默认读取环境变量 SKILLS_ROUTER_REPO；未设置时为 OWNER/skills-router。
+  GitHub 仓库 "owner/repo"。默认读取环境变量 SKILLS_ROUTER_REPO；未设置时为 eavelabs-community/skills-router。
 
 .EXAMPLE
   .\install.ps1
   .\install.ps1 -Version v1.2.3
   .\install.ps1 -Destination D:\MyProject
-  $env:SKILLS_ROUTER_REPO = "owner/skills-router"; .\install.ps1
+  $env:SKILLS_ROUTER_REPO = "eavelabs-community/skills-router"; .\install.ps1
 #>
 param(
   [string]$Version = "latest",
@@ -30,7 +30,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 if (-not $Repo) { $Repo = $env:SKILLS_ROUTER_REPO }
-if (-not $Repo) { $Repo = "OWNER/skills-router" }
+if (-not $Repo) { $Repo = "eavelabs-community/skills-router" }
 if ($env:SKILLS_ROUTER_VERSION) { $Version = $env:SKILLS_ROUTER_VERSION }
 if ($env:SKILLS_ROUTER_DEST) { $Destination = $env:SKILLS_ROUTER_DEST }
 

@@ -60,7 +60,7 @@ python .skills-router/init.py        # 自动探测平台并生成入口
 
 **方式二：命令行快速安装（Linux / macOS / WSL）**
 
-`install.sh` 随源码仓库管理，可从 GitHub 原始文件下载后执行（需把 `<owner>` 换成实际用户名，或设置 `SKILLS_ROUTER_REPO` 环境变量）：
+`install.sh` 随源码仓库管理，可从 GitHub 原始文件下载后执行（默认已指向 `eavelabs-community/skills-router`，如需其他仓库可设置 `SKILLS_ROUTER_REPO` 环境变量）：
 
 ```bash
 curl -fsSL -o install.sh https://raw.githubusercontent.com/eavelabs-community/skills-router/main/install.sh
@@ -72,7 +72,7 @@ chmod +x install.sh
 # 安装指定版本 / 指定目录 / 指定仓库
 VERSION=v1.2.3 ./install.sh
 DEST=/path/to/project ./install.sh
-SKILLS_ROUTER_REPO=owner/skills-router ./install.sh
+SKILLS_ROUTER_REPO=eavelabs-community/skills-router ./install.sh
 ```
 
 **方式三：命令行快速安装（Windows PowerShell）**
@@ -86,7 +86,7 @@ curl.exe -fsSL -o install.ps1 https://raw.githubusercontent.com/eavelabs-communi
 # 安装指定版本 / 指定目录 / 指定仓库
 .\install.ps1 -Version v1.2.3
 .\install.ps1 -Destination D:\MyProject
-$env:SKILLS_ROUTER_REPO = "owner/skills-router"; .\install.ps1
+$env:SKILLS_ROUTER_REPO = "eavelabs-community/skills-router"; .\install.ps1
 ```
 
 安装脚本会自动：从 GitHub Releases 下载发布包 → 备份已存在的 `.skills-router`（`.skills-router.bak`）→ 把 `.skills-router/` 安装到**执行脚本时所在的目录** → 运行 `init.py` 探测工作区中的平台并生成入口。安装完成后使用：
@@ -189,7 +189,4 @@ git tag v1.0.0
 git push origin v1.0.0
 ```
 
-> 发布前的两个必改项：
-> - `install.sh` / `install.ps1` 中的仓库占位符 `OWNER/skills-router` 需改为实际的 `owner/repo`
->   （或让使用者通过 `SKILLS_ROUTER_REPO` 环境变量指定）；
-> - 首次推送前需先在 GitHub 上创建远程仓库并完成 `git init`、`git remote add origin ...`。
+> `install.sh` / `install.ps1` 默认已指向 `eavelabs-community/skills-router`，使用者可通过 `SKILLS_ROUTER_REPO` 环境变量或脚本参数覆盖。

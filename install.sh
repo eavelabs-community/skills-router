@@ -8,14 +8,14 @@
 #   ./install.sh                          # 安装最新版到当前目录
 #   VERSION=v1.2.3 ./install.sh           # 安装指定版本
 #   DEST=/path/to/project ./install.sh    # 安装到指定目录（需已存在）
-#   SKILLS_ROUTER_REPO=owner/repo ./install.sh   # 指定 GitHub 仓库（默认 OWNER/skills-router）
+#   SKILLS_ROUTER_REPO=owner/repo ./install.sh   # 指定 GitHub 仓库（默认 eavelabs-community/skills-router）
 #
 # 首次使用请将仓库地址写入脚本（见下方 REPO）或通过 SKILLS_ROUTER_REPO 环境变量传入。
 
 set -euo pipefail
 
-# 仓库占位符：发布前请改成实际的 "owner/repo"
-REPO="${SKILLS_ROUTER_REPO:-OWNER/skills-router}"
+# 仓库地址：默认 eavelabs-community/skills-router，可通过 SKILLS_ROUTER_REPO 环境变量覆盖
+REPO="${SKILLS_ROUTER_REPO:-eavelabs-community/skills-router}"
 # 版本：latest（默认）或 v1.2.3 等具体 tag
 VERSION="${SKILLS_ROUTER_VERSION:-latest}"
 # 安装目标目录：默认是执行脚本时所在的目录
